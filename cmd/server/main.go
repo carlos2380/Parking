@@ -3,12 +3,15 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"parking/internal/handlers"
+	"parking/internal/register/redis"
 	"parking/internal/server"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -16,8 +19,21 @@ import (
 )
 
 func main() {
-	port := flag.String("port", "8000", "Port to server will be listening.")
+	port := flag.String("port", "8000", "Port on which the server will be listening for incoming requests.")
+	portRedis := flag.String("port_redis", "6379", "Port on which the Redis server will be serving connections.")
+	ipRedis := flag.String("ip_redis", "0.0.0.0", "IP address on which the Redis server will be listening.")
 	flag.Parse()
+
+	portRedisInt, err := strconv.Atoi(*portRedis)
+	if err != nil {
+		fmt.Println("Error converting string to int:", err)
+		return
+	}
+
+	if err := redis.InitRedis(*ipRedis, portRedisInt, ""); err != nil {
+		log.Fatal("Error redis:", err)
+		return
+	}
 
 	pHandler := &handlers.ParckingHandler{}
 
