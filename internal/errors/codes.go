@@ -9,5 +9,6 @@ var (
 	ErrUnauthorized        = &HttpError{http.StatusUnauthorized, "unauthorized", nil}
 	ErrForbidden           = &HttpError{http.StatusForbidden, "forbidden", nil}
 	ErrIntConvert 	= &HttpError{http.StatusInternalServerError, "Unsupported Int", nil}
+	ErrRedisConnectionFailure = &HttpError{http.StatusInternalServerError, "unable to connect to Redis", nil}
 )
 
