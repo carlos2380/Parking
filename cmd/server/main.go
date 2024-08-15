@@ -28,12 +28,14 @@ func main() {
 	if err != nil {
 		log.Fatal(errors.Wrap(err, *errors.ErrIntConvert))
 	}
-
-	if err := redis.InitRedis(*ipRedis, portRedisInt, ""); err != nil {
+	registerRedis := &redis.RegisterRedis{}
+	if err := registerRedis.InitRedis(*ipRedis, portRedisInt, ""); err != nil {
 		log.Fatal("Error redis:", err)
 	}
 
-	pHandler := &handlers.ParckingHandler{}
+	pHandler := &handlers.ParckingHandler{
+		Register: registerRedis,
+	}
 
 	router := server.NewRouter(pHandler).(*mux.Router)
 

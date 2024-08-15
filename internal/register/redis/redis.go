@@ -8,9 +8,13 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func InitRedis(ip string, port int, password string) error {
+type RegisterRedis struct {
+	RedisDB *redis.Client
+}
 
-	rdb := redis.NewClient(&redis.Options{
+func (RClient *RegisterRedis) InitRedis(ip string, port int, password string) error {
+
+	RClient.RedisDB = redis.NewClient(&redis.Options{
 		Addr:         fmt.Sprintf("%s:%d", ip, port),
 		Password:     password,
 		DB:           0,
@@ -19,7 +23,7 @@ func InitRedis(ip string, port int, password string) error {
 		WriteTimeout: 10 * time.Second,
 	})
 
-	pong, err := rdb.Ping().Result()
+	pong, err := RClient.RedisDB.Ping().Result()
 	if err != nil {
 		return errors.Wrap(err, *errors.ErrRedisConnectionFailure)
 	}
