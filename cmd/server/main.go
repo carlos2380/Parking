@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	"parking/internal/errors"
 	"parking/internal/handlers"
 	"parking/internal/register/redis"
 	"parking/internal/server"
@@ -26,13 +26,11 @@ func main() {
 
 	portRedisInt, err := strconv.Atoi(*portRedis)
 	if err != nil {
-		fmt.Println("Error converting string to int:", err)
-		return
+		log.Fatal(errors.Wrap(err, *errors.ErrIntConvert))
 	}
 
 	if err := redis.InitRedis(*ipRedis, portRedisInt, ""); err != nil {
 		log.Fatal("Error redis:", err)
-		return
 	}
 
 	pHandler := &handlers.ParckingHandler{}
