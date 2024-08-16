@@ -56,7 +56,7 @@ func (RClient *RegisterRedis) EntryCar(plateNumber string) (models.Car, error) {
 }
 
 func (RClient *RegisterRedis) ExitCar(plateNumber string) (models.Ticket, error) {
-	fmt.Println("EXIT CARR")
+
 	now := time.Now()
 
 	entryDateStr, err := RClient.RedisDB.Get(plateNumber).Result()
