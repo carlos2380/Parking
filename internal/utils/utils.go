@@ -20,7 +20,7 @@ func DateToStr(date time.Time) string {
 func StrDateToDate(dateStr string) (time.Time, error) {
 	date, err := time.Parse(time.RFC822, dateStr)
 	if err != nil {
-		log.Fatalf("Error on parse entry date %s : %v", dateStr, err)
+		log.Printf("Error on parse entry date %s : %v", dateStr, err)
 		return time.Time{}, err
 	}
 	return date, nil

@@ -14,7 +14,8 @@ import (
 func (RClient *RegisterRedis) UpdateParking() error {
 	numCars, err := RClient.RedisDB.DBSize().Result()
 	if err != nil {
-		log.Fatal("Error getting number cars in Redis:", err)
+		log.Print("Error getting number cars in Redis:", err)
+		return fmt.Errorf("Database error")
 	}
 	RClient.Parking.UpdateStatus(numCars)
 	return nil
