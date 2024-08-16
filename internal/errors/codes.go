@@ -12,4 +12,5 @@ var (
 	ErrRedisConnectionFailure = &HttpError{http.StatusInternalServerError, "unable to connect to Redis", nil}
 	ErrRedisCarEntryFailed    = &HttpError{http.StatusInternalServerError, "failed to register car entry", nil}
 	ErrMethodNotAllowed       = &HttpError{http.StatusMethodNotAllowed, "method not allowed", nil}
+	ErrParkingClosed           = &HttpError{http.StatusInsufficientStorage, "Parking closed", nil}
 )

@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"parking/internal/errors"
 	"parking/internal/handlers"
+	"parking/internal/parking"
 	"parking/internal/register/redis"
 	"parking/internal/server"
 	"strconv"
@@ -31,6 +32,14 @@ func main() {
 	registerRedis := &redis.RegisterRedis{}
 	if err := registerRedis.InitRedis(*ipRedis, portRedisInt, ""); err != nil {
 		log.Fatal("Error redis:", err)
+	}
+
+	parking := &parking.Parking{}
+	parking.SetMaxCars(8)
+	parking.SetPriceCentsMin(4)
+
+	if err := registerRedis.InitParking(parking); err != nil {
+		log.Fatal("Error Init Parking:", err)
 	}
 
 	pHandler := &handlers.ParckingHandler{

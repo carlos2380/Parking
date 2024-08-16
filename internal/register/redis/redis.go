@@ -3,6 +3,7 @@ package redis
 import (
 	"fmt"
 	"parking/internal/errors"
+	"parking/internal/parking"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -10,6 +11,7 @@ import (
 
 type RegisterRedis struct {
 	RedisDB *redis.Client
+	Parking *parking.Parking
 }
 
 func (RClient *RegisterRedis) InitRedis(ip string, port int, password string) error {
@@ -28,5 +30,13 @@ func (RClient *RegisterRedis) InitRedis(ip string, port int, password string) er
 		return errors.Wrap(err, *errors.ErrRedisConnectionFailure)
 	}
 	fmt.Println("Connected to Redis:", pong)
+	return nil
+}
+
+func (RClient *RegisterRedis) InitParking(parking *parking.Parking) error {
+	RClient.Parking = parking
+	if err := RClient.UpdateParking(); err != nil {
+		return err
+	}
 	return nil
 }
