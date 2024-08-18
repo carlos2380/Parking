@@ -1,4 +1,4 @@
-package server
+package server_test
 
 import (
 	"net/http"
@@ -6,6 +6,7 @@ import (
 	"parking/internal/handlers"
 	"parking/internal/models"
 	"parking/internal/register"
+	"parking/internal/server"
 	"strings"
 	"testing"
 
@@ -18,7 +19,7 @@ func TestEntryCar(t *testing.T) {
 
 	mockRegister := register.NewMockRegister(ctrl)
 	pHandler := &handlers.ParckingHandler{Register: mockRegister}
-	router := NewRouter(pHandler)
+	router := server.NewRouter(pHandler)
 
 	mockCar := models.Car{
 		PlateNumber: "1234ABC",
@@ -56,7 +57,7 @@ func TestExitCar(t *testing.T) {
 
 	mockRegister := register.NewMockRegister(ctrl)
 	pHandler := &handlers.ParckingHandler{Register: mockRegister}
-	router := NewRouter(pHandler)
+	router := server.NewRouter(pHandler)
 
 	mockTicket := models.Ticket{
 		PlateNumber: "1234ABC",
@@ -102,7 +103,7 @@ func TestMethodNotAllowed(t *testing.T) {
 
 	mockRegister := register.NewMockRegister(ctrl)
 	pHandler := &handlers.ParckingHandler{Register: mockRegister}
-	router := NewRouter(pHandler)
+	router := server.NewRouter(pHandler)
 
 	req, err := http.NewRequest("PUT", "/api/cars/entry/1234ABC", nil)
 	if err != nil {
