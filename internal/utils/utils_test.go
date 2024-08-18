@@ -22,7 +22,7 @@ func TestCentsIntToEurStr(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			result := CentsIntToEurStr(test.cents)
 			if test.expect != result {
-				t.Errorf("CentsIntToEurStr(%d) = %s; want %s", test.cents, result, test.expect)
+				t.Errorf("TEST:%s; EXPECT:%s; RESULT:%s", test.name, test.expect, result)
 			}
 		})
 	}

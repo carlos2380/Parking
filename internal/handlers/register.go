@@ -26,7 +26,7 @@ func (phandler ParckingHandler) EntryCar(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(http.StatusOK)
 		_ = json.NewEncoder(w).Encode(entryCar)
 	default:
-		errors.ErrMethodNotAllowed.Respond(w)
+		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
 
@@ -47,6 +47,6 @@ func (phandler *ParckingHandler) ExitCar(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(http.StatusOK)
 		_ = json.NewEncoder(w).Encode(ticket)
 	default:
-		errors.ErrMethodNotAllowed.Respond(w)
+		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }

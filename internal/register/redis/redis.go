@@ -9,8 +9,18 @@ import (
 	"github.com/go-redis/redis"
 )
 
+type RedisClient interface {
+	Ping() *redis.StatusCmd
+	Set(key string, value interface{}, expiration time.Duration) *redis.StatusCmd
+	Get(key string) *redis.StringCmd
+	Exists(keys ...string) *redis.IntCmd
+	Del(keys ...string) *redis.IntCmd
+	DBSize() *redis.IntCmd
+	FlushDB() *redis.StatusCmd
+}
+
 type RegisterRedis struct {
-	RedisDB *redis.Client
+	RedisDB RedisClient
 	Parking *parking.Parking
 }
 
